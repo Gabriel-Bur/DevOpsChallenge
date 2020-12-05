@@ -3,14 +3,12 @@
 
 name: Build and deploy ASP.Net Core app to Azure Web App - app-mywebapp-test-001
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
+
 
 defaults:
   run:
-    working-directory: ./src/MyWebApp
+    working-directory: ./src
 
 jobs:
   build-and-deploy:
@@ -22,24 +20,17 @@ jobs:
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.102'
+        dotnet-version: '3.1.x'
 
-    - name: Restore
-      run: dotnet restore
-
-    - name: Build with dotnet
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Test 
-      run: dotnet test --no-restore --verbosity normal
-
-    - name: dotnet publish
-      run: dotnet publish -c Release -o ./MyWebApp
+    - name: Build, Test, Publish
+      run: |
+        dotnet build --configuration Release
+        dotnet test --verbosity normal
+        dotnet publish -c Release -o MyWebApp
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'app-mywebapp-test-001'
-        slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_42c6691894a647e1b9a7a2a7392d7b9f }}
-        package: ${{env.DOTNET_ROOT}}/MyWebApp 
+        
