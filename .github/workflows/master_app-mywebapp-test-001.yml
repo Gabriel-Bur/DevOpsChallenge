@@ -22,15 +22,23 @@ jobs:
       with:
         dotnet-version: '3.1.x'
 
-    - name: Build, Test, Publish
+    - name: Build, Test
       run: |
         dotnet build --configuration Release
         dotnet test --verbosity normal
-        dotnet publish -c Release -o MyWebApp
-
+        
+    - name: Build app using Oryx v2 version
+      uses: Azure/appservice-build@v2
+      with:
+        source-directory: MyWebApp
+        platform: dotnet
+        platform-version: '3.1.x'
+        output-directory: MyWebApp/output
+        
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'app-mywebapp-test-001'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_42c6691894a647e1b9a7a2a7392d7b9f }}
+        package: MyWebApp/output
         
