@@ -1,3 +1,3 @@
 ## Status do Projeto
 
-![Deploy](https://github.com/actions/hello-world/workflows/.NET%20Core/badge.svg)
+![Pipeline](https://github.com/Gabriel-Bur/DevOpsChallenge/workflows/Pipeline/badge.svg?branch=master&event=push)
