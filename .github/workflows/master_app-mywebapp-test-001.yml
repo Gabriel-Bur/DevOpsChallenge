@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./src
+    working-directory: ./src/MyWebApp
 
 jobs:
   build-and-deploy:
@@ -24,11 +24,17 @@ jobs:
       with:
         dotnet-version: '3.1.102'
 
+    - name: Restore
+      run: dotnet restore
+
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Test 
+      run: dotnet test --no-restore --verbosity normal
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/MyWebApp
+      run: dotnet publish -c Release -o ./MyWebApp
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
