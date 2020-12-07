@@ -1,4 +1,4 @@
-name: Docker Image CI - Test
+name: Docker CI 
 
 on: [push]
 
@@ -23,12 +23,12 @@ jobs:
     - name: Build Docker image and Push to Container Registry - Test
       run: |
         docker build . --file Dockerfile --tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-test:latest
-        docker tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}mywebapp-test:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-test:$(date +%s)
+        docker tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-test:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-test:$(date +%s)
         docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-test
         
     - name: Build Docker image and Push to Container Registry - Prod
       run: |
         docker build . --file Dockerfile --tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-prod:latest
-        docker tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}mywebapp-test:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-prod:$(date +%s)
+        docker tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-prod:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-prod:$(date +%s)
         docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/mywebapp-prod
         
