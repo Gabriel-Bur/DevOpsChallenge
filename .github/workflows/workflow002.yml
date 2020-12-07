@@ -1,6 +1,11 @@
-name: Docker CI 
+name: Docker Pipeline - CI/CD 
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Pipeline - CI/CD"]
+    branches: [master]
+    types: 
+      - completed
 
 defaults:
   run:
