@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Production
+name: Pipeline - CI/CD
 
 on: [push]
 
@@ -34,9 +34,16 @@ jobs:
         platform-version: '3.1.x'
         output-directory: src/MyWebApp/output
 
-    - name: Deploy to Azure Web App
+    - name: Deploy to Azure Web App - Test
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'app-mywebapp-prod-001'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_636b00f7b48f448b8cf6e8c397436f30 }}
+        package: src/MyWebApp/output   
+        
+    - name: Deploy to Azure Web App - Prod
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'app-mywebapp-test-001'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_42c6691894a647e1b9a7a2a7392d7b9f }}
         package: src/MyWebApp/output
